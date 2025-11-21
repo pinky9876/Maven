@@ -1,0 +1,503 @@
+1) Jenkins
+Steps for Maven Java Automation:
+Step 1: Open Jenkins in local host: 8080/ and click on a new item present in the left side. 
+Step 2: Select a new Freestyle Project give name (eg. MavenJava_Build) and then click ok.
+Step 3: In description type e.g., Java Build demo, Scroll sown and in Source code management give the Git MavenJava repository URL of the project to be built.
+Step 4: Scroll down in Branches to build, Specify the Branch as */Main as it is in the GitHub 
+Step 5: Goto Build Steps -> Add Build Step-> Invoke top-level Maven targets, Type MAVEN_HOME in Maven version, Goals: Clean. 
+Step 6: Again, click Add Build Step-> Invoke top-level Maven targets-> Type MAVEN_HOME in Maven version, Goals: install. 
+Step 7: Click add post build actions-> select Archive the artifacts, Type **/* in Files to Archive.
+Step 8: Now click Add Post Build Action-> Build other projects.  In Projects to build, write MavenJava_Test and select Trigger only if build is stable.
+Step 9: Click on Apply and save.
+Step 10: Go to dashboard -> New item-> Freestyle Project, give project name as MavenJava_Test, then press on OK.
+Step 11: In description type Test demo and in Build environment, check the box with name “Delete the workspace before build starts”.
+Step 12: Click on Add Build Step-> copy the artifacts from another project.
+Step 13: Now Give project name: MavenJava_Build, Which build: Check the boxstable build only, Artifacts to copy: **/*.
+Step 14: Click Add Build Step-> Invoke top-level Maven targets-> Type MAVEN_HOME in Maven version, Goals: test.
+Step 15: Click on Post build actions->Archive the artifacts, in Files to archive type **/*.
+Step 16: Now click apply and save.  Now run the project.
+
+Steps for Maven Web Automation:
+Step 1: Open Jenkins in local host: 8080/ and click on a new item present in the left side. 
+Step 2: Select a new Freestyle Project give name MavenWeb_Build and then click ok.
+Step 3: In description type e.g., Web Build demo, Scroll sown and in Source code management give the Git MavenWeb repository URL of the project to be built.
+Step 4: Scroll down in Branches to build, Specify the Branch as */Main as it is in the GitHub 
+Step 5: Goto Build Steps -> Add Build Step-> Invoke top-level Maven targets, Type MAVEN_HOME in Maven version, Goals: Clean. 
+Step 6: Again, click Add Build Step-> Invoke top-level Maven targets-> Type MAVEN_HOME in Maven version, Goals: install. 
+Step 7: Click add post build actions-> select Archive the artifacts, Type **/* in Files to Archive.
+Step 8: Now click Add Post Build Action-> Build other projects.  In Projects to build, write MavenWeb_Test and select Trigger only if build is stable. Click on apply and save at the bottom.
+Step 9: Go to dashboard -> New item-> Freestyle Project, give project name as MavenWeb_Test, then press on OK.
+Step 10: In description type Test demo and in Build environment, check the box with name “Delete the workspace before build starts”.
+Step 11: Click on Add Build Step-> copy the artifacts from another project.
+Step 12: Give project name: MavenWeb_Build, Which build: Check the box stable build only, Artifacts to copy: **/*.
+Step 13: Click Add Build Step-> Invoke top-level Maven targets-> Type MAVEN_HOME in Maven version, Goals: test.
+Step 14: Click on Post build actions->Archive the artifacts, in Files to archive type **/*.
+Step 15: Add post build action->Build Other Projects->MavenWeb_Deploy, Apply and Save.
+Step 16: Go to dashboard -> New item-> Freestyle Project, give project name as MavenWeb_Deploy, then press on OK.
+Step 17: In description give Web Code Deploement, scroll down to Build environment, Check “Delete the workspace before build starts”.
+Step18: Goto Build Steps->Add Build Step-> copy the artifacts from another project.
+Step 19: Give project name: MavenWeb_Test, Which build: Check the box stable build only, Artifacts to copy: **/*.
+Step 20: Scroll down to post build actions-> Add post build action->Deploy war/ear to a container.
+Step 21: Write WAR/EAR File: **/*.war, Context path: Webpath, click on Add container-> Tomact 9.x remote, Click on admin, add credentials as username: admin and password: 1234, save.
+Step 22: Give Tomcat URL: https://localhost:8085/ , Click on apply and save.
+Step 23: Now click on “+” button present beside “All” in the dashboard, Give Name: MavenWeb_Pipeline, select Build pipeline view in the options shown.
+Step 24: Scroll down, goto Pipeline Flow->Layout->Based on upstream/downstream relationship-> Select initial job-> MavenWeb_Build, Apply and save.
+Step 25: Click the trigger to run the pipeline shown on the page for web application automation.
+Step 26: Now open tomcat homepage in another tab and check the manager app option present at the right side.
+Step 27: Click on /webpath option, and now output of MavenWeb project is seen in the tomcat server in a new tab.
+Conclusion: In this week we learnt installation of Jenkins and automating Maven projects through Jenkins.
+
+
+////if tomcat is getting port error then cmd run as administrator then use
+netstat -ano | findstr :8085
+then kill the process using 
+taskkill /PID 12345 /F
+
+
+
+2)Jenkins using Script
+Make a new pipeline 
+
+pipeline {
+    agent any
+    tools{
+        jdk 'JAVA_HOME'
+        maven 'MAVEN_HOME'
+    }
+    stages {
+        stage('git repo & clean') {
+            steps {
+                bat "rmdir /s /q Harshitha_Jenkins_Maven || exit 0"
+                bat "git clone https://github.com/Harshitha-Macha/Harshitha_Jenkins_Maven.git"
+                bat "mvn clean -f Harshitha_Jenkins_Maven/pom.xml"
+            }
+        }
+        stage('install') {
+            steps {
+                bat "mvn install -f Harshitha_Jenkins_Maven/pom.xml" 
+            }
+        }
+        stage('test') {
+            steps {
+                bat "mvn test -f Harshitha_Jenkins_Maven/pom.xml"
+            }
+        }
+        stage('package') {
+            steps {
+                bat "mvn package -f Harshitha_Jenkins_Maven/pom.xml"
+            }
+        }
+    }
+}
+
+Steps to create a Build Trigger for maven Java project using poll SCM:
+
+1. Create a Jenkins Pipeline.
+ 
+2. Select “Build periodically” in Build Triggers section and type “H/15 * * * *” in the description.
+ 
+3.  Add your pipeline script in the Pipeline definition section.
+ 
+4.  Click on Build Now option and wait for the build to complete.
+ 
+5. You will see a “BUILD SUCCESS” output in the Console Output.
+
+
+Steps to create a Build Trigger for maven Web project using poll SCM:
+1.	Select an existing maven web build project and go to configure.
+2.	Select poll SCM option from “BUILD TRIGGERS”.
+3.	Type “H/2 * * * *” in the description.
+
+4.	Click on Build now.
+
+5.	Open tomcat server and click on “/Webpath” in “manager app” and look for output. 
+6.	You have successfully created a maven project with poll SCM.
+
+
+3)Minikube and Nagios
+Minikube Automation Steps
+Step 1: Start Minikube Cluster
+Open your terminal and run the command:
+minikube start
+or
+o	Hyper-V: 
+o	minikube start --driver=hyperv
+o	Docker: 
+o	minikube start --driver=docker
+
+minikube status
+Check versions
+
+Step 2: Create and Manage Nginx Deployment
+Create Deployment:
+Command:
+kubectl create deployment mynginx --image=nginx
+if already created then
+kubectl set image deployment/myngnix nginx=nginx:latest
+Verify the deployment using:
+kubectl get deployments
+Ensure mynginx appears in the output.
+Expose Deployment as a Service:
+Command:
+kubectl expose deployment mynginx --type=NodePort --port=80 --target-port=80
+Step 3: Scale the Deployment
+Command: Scales the Nginx deployment to 4 replicas (pods).
+kubectl scale deployment mynginx --replicas=4
+
+kubectl get service myngnix
+
+Step 4: Access the Nginx App
+Using Port Forwarding:
+Command:
+kubectl port-forward svc/mynginx 8081:80
+Access the app via http://localhost:8081.
+If Error, use this option, Using Minikube Tunnel:
+Start the tunnel:
+minikube tunnel
+Retrieve the service URL:
+minikube service mynginx --url
+Open the provided URL in your browser.
+
+minikube dashboard
+
+Step 5: Stop and Clean Up
+Stop Nginx Deployment:
+Commands:
+kubectl delete deployment mynginx
+kubectl delete service mynginx
+Stop Minikube (Optional):
+Command:
+minikube stop
+Delete Minikube Cluster (Optional):
+Command: minikube delete
+Nagios Automation Steps
+Step 1: Pull the Nagios Docker Image
+Open a terminal and run:
+docker pull jasonrivers/nagios:latest
+Step 2: Run Nagios
+Command:
+docker run --name nagiosdemo -p 8888:80 jasonrivers/nagios:latest
+Step 3: Access Nagios Dashboard
+Open your browser and navigate to:
+http://localhost:8888
+Login Credentials:
+Username: nagiosadmin
+Password: nagios
+Once logged in, explore:
+Hosts: View systems being monitored.
+Services: Check tasks being monitored (e.g., CPU usage).
+Alerts: Access recent notifications.
+Step 4: Monitoring Host Details
+Navigate to the Host Information Page:
+Select a host from the Hosts menu.
+Key Details:
+Host Status: Indicates if the system is UP or DOWN.
+Metrics: View CPU usage, memory status, and network activity.
+Actions: Reschedule checks, disable notifications, or schedule downtime.
+Step 5: Stop and Remove Nagios
+Stop the Container:
+Command:
+docker stop nagiosdemo
+Delete the Container:
+Command:
+docker rm nagiosdemo
+Remove the Image (Optional):
+List images:
+docker images
+Delete the Nagios image:
+docker rmi jasonrivers/nagios:latest
+
+4)Webhooks and email
+
+1.	Go to your GitHub repository.
+ 
+2.	Navigate to Settings → Webhooks.
+ 
+3.	Click “Add webhook”.
+4.	In the Payload URL field:
+o	Enter the Jenkins webhook URL in the format:
+http://<jenkins-server-url>/github-webhook/
+Note: If Jenkins is running on localhost, GitHub cannot access it directly.
+Use ngrok to expose your local Jenkins to the internet:
+
+o	ngrok.exe http <Jenkins local host:8080>
+	Use the generated ngrok URL, e.g.:
+	http://abc123.ngrok.io/github-webhook/
+5.	Set Content type to:
+application/json
+6.	Under “Which events would you like to trigger this webhook?”, select:
+o	 Just the push event
+ 
+7.	Click “Add webhook” to save.
+ 
+________________________________________
+ Step 2: Configure Jenkins to Accept GitHub Webhooks
+1.	Open Jenkins Dashboard.
+2.	Select the job (freestyle or pipeline) you’ve already created.
+3.	Click Configure.
+4.	Scroll down to the Build Triggers section.
+5.	Check the box: ✅GitHub hook trigger for GITScm polling
+6.	Click Save.
+ 
+________________________________________
+ Step 3: Test the Setup
+1.	Make any code update in your local repo and push it to GitHub.
+2.	Once pushed, GitHub will trigger the webhook.
+3.	Jenkins will automatically detect the change and start the build pipeline.
+ 
+
+ 
+________________________________________
+outcome
+•	You’ve successfully connected GitHub and Jenkins using webhooks.
+•	Every time you push code to GitHub, Jenkins will automatically start building your project without manual intervention.
+
+Set-uping the ngrok
+
+How to Install and Use ngrok
+
+Step 1. Download ngrok
+https://ngrok.com/download
+Download and extract it for your OS (Windows, macOS, or Linux).
+
+Step 2. Connect Your ngrok Account (optional but useful)
+After you sign up (free), ngrok gives you an auth token.
+CREATE AUTHENTICATOR [https://dashboard.ngrok.com/get-started/your-authtoken]
+Run this command (replace <your_token> with yours):
+ngrok config add-authtoken <your_token>
+This ensures stable sessions and more control.
+
+Step 3. Start a Tunnel for Jenkins
+
+Assuming Jenkins runs locally on port 8085:
+ngrok http 8085
+You’ll see output like:
+
+Session Status                online
+Forwarding                    https://1234abcd.ngrok.io -> http://localhost:8080
+Copy the HTTPS URL (https://1234abcd.ngrok.io) — this is your public Jenkins URL for webhooks.
+Step 4. Use it in GitHub Webhook
+
+ 
+In your GitHub repo → Settings → Webhooks:
+•	Payload URL: 		 [paste the url generated by ngrok]
+
+https://1234abcd.ngrok.io/github-webhook/    [please include this – remaining all default]
+Now, whenever you push code, GitHub sends an event to that URL, which ngrok forwards to your local Jenkins.
+Setting Up   Jenkins Email Notification Setup (Using Gmail with App Password)
+Creation of app password
+1. Gmail: Enable App Password (for 2-Step Verification)
+i. Go to: https://myaccount.google.com
+ii. Enable 2-Step Verification
+•	Navigate to:
+o	Security → 2-Step Verification
+o	Turn it ON
+o	Complete the OTP verification process (via phone/email)
+iii. Generate App Password for Jenkins
+•	Go to:
+o	Security → App passwords
+•	Select:
+o	App: Other (Custom name)
+o	Name: Jenkins-Demo
+ 
+•	Click Generate
+•	Copy the 16-digit app password
+o	Save it in a secure location (e.g., Notepad)
+                 2.  Jenkins Plugin Installation
+i. Open Jenkins Dashboard
+ii. Navigate to:
+•	Manage Jenkins → Manage Plugins
+iii. Install Plugin:
+•	Search for and install:
+o	Email Extension Plugin
+ 
+________________________________________
+3. Configure Jenkins Global Email Settings
+i. Go to:
+•	Manage Jenkins → Configure System
+________________________________________
+A. E-mail Notification Section
+Field	Value
+SMTP Server	smtp.gmail.com
+Use SMTP Auth	✅ Enabled
+User Name	Your Gmail ID (e.g., archanareddykmit@gmail.com)
+Password	Paste the 16-digit App Password
+Use SSL	✅ Enabled
+SMTP Port	465
+Reply-To Address	Your Gmail ID (same as above)
+ 
+➤ Test Configuration
+•	Click: Test configuration by sending test e-mail
+•	Provide a valid email address to receive a test mail
+•	✅ Should receive email from Jenkins
+ 
+ 
+________________________________________
+B. Extended E-mail Notification Section
+Field	Value
+SMTP Server	smtp.gmail.com
+SMTP Port	465
+Use SSL	✅ Enabled
+Credentials	Add Gmail ID and App Password as Jenkins credentials
+Default Content Type	text/html or leave default
+Default Recipients	Leave empty or provide default emails
+Triggers	Select as per needs (e.g., Failure)
+________________________________________
+ 
+4.  Configure Email Notifications for a Jenkins Job
+i. Go to:
+•	Jenkins → Select a Job → Configure
+________________________________________
+ii. In the Post-build Actions section:
+•	Click: Add post-build action → Editable Email Notification
+A. Fill in the fields:
+Field	Value
+Project Recipient List	Add recipient email addresses (comma-separated)
+Content Type	Default (text/plain) or text/html
+Triggers	Select events (e.g., Failure, Success, etc.)
+Attachments	(Optional) Add logs, reports, etc.
+
+
+5)AWS
+1.	Go to course invitation mail and click on start
+2.	Opens the aws academy, select the student login and enter the email and password details 
+3.	Click on Modules
+4.	Scroll down and select Lunch AWS Academy Lab- start Lab
+
+5.	Click on start lab
+
+6.	Click on AWS
+
+7.	Click on EC2
+
+8.	Click on Launch Instance
+
+9.	Give name and select ubuntu under application
+
+10.	Make sure  AMI and Architecture are there as shown
+ 
+11.	Click on create-new key pair
+ 
+
+12.	Give KeyPair name and click on create key pair
+
+13.	Save the .pem file
+
+14.	In network setting check all the checkboxes and click on launch instance which is at the bottom right to the page
+15.	Wait for the Success message.
+16.	Now click on the instances
+
+17.	You can see MyExampleWebServer is Running and wait for it to initialize
+
+18.	You have get 2 tests passes. Now check the box and click on connect.
+
+19.	Copy the path of .pem file that you saved earlier
+20.	Open CMD and navigate to that path
+21.	Go to SSh and copy the command which is present at the below
+22.	Run the command in the terminal
+23.	Run the following commands
+	sudo apt update
+	sudo apt-get install docker.io
+	sudo apt install git
+	Sudo apt install nano
+
+24.	Create basic index.html file 
+25.	Open git Bash
+
+26.	Run the following commands
+27.	Create git repo
+
+28.	Now run the following commands
+git branch –M main
+git remote add origin <https url>
+git push –u origin main
+
+29.	You can now see index.html in github
+
+30.	Copy http path
+31.	Clone the repository
+32.	Navigate to the cloned folder
+33.	Write the following data in Dockerfile and click ctrl+o  and ctrl-x
+
+FROM nginx:alpine
+COPY . /usr/share/nginx/html
+
+34.	Build docker image by executing the following command
+sudo docker build -t mywebapp .
+35.	Run the container 
+sudo docker run –d –p 80:80 mywebapp
+36.	Click on instance
+37.	Copy public ip 
+38.	Paste it in the browser
+39.	Run the following command to stop the container
+sudo docker ps
+sudo docker stop <container-id>
+40.	Click on terminate instances
+41.	Now click on end lab
+ 
+
+
+
+
+MAVENWEB
+1.	Click on start lab
+2.	Click on AWS
+3.	Click on EC2
+4.	Click on launch instance
+5.	Give name
+6.	Create new key or use existing key pair
+
+
+7.	Check all the boxes under network and click  on launch instance 
+
+8.	Click on instances
+
+9.	Wait until you get 2 tests passes
+
+10.	Click on connect after checking the box
+11.	Copy ssh command
+ 
+12.	Open the terminal, Navigate to the path 
+Run the ssh command
+
+13.	Run the following commands
+	sudo apt update
+	sudo apt-get install docker.io
+	sudo apt install git
+	Sudo apt install nano
+
+14.	Open MAVEN WEB PROJECT REPO in github and copy http link
+Clone the repository
+
+15.	If your repository is in main run following
+
+execute above commands
+cd repo name
+
+nano Dockerfile
+16.	Build docker image
+FROM tomcat:9-jdk11
+RUN rm -rf /usr/local/tomcat/webapps/*
+COPY target/Harshitha_Web_App.war /usr/local/tomcat/webapps/ROOT.war
+
+17.	Run the container
+sudo docker build -t webproject .
+
+sudo docker run -d -p 9090:8080 webproject
+
+18.	Copy public ipv4 -> public ipv4:9090
+
+19.	Enter this url in browser and click enter
+ If your app is not running goto security  and Click on security groups
+20.	Click on edit inbound rules
+
+21.	Click on add rule give port as 9090 and 0.0.0.0/0 click on save
+ And refresh the page to check whether the web page has loaded or not
+If it is loaded you have successfully deployed you maven web project In your ec2 instance
+
+24. Run the following commands to stop the container 
+
+25. Terminate your instance
+
+26. End your lab
+ 
