@@ -1,3 +1,5 @@
+https://toofaanlab.teleuniv.in:536/local/student/dashboard.php#openModal
+https://Plantumlonlineeditor.com
 1) Jenkins
 Steps for Maven Java Automation:
 Step 1: Open Jenkins in local host: 8080/ and click on a new item present in the left side. 
@@ -501,3 +503,4 @@ If it is loaded you have successfully deployed you maven web project In your ec2
 
 26. End your lab
  
+
