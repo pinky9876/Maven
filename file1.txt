@@ -1,0 +1,923 @@
+week 2 
+
+Task 1: Pushing multi-folder project into private repository
+1. Create a Private Repository on GitHub
+• Go to https://github.com
+• Click New repository
+• Give it a name
+• Check Private
+• Click Create repository
+2. Initialize Git in Your Local Project (if not already done)
+Open a terminal in the root of your multi-folder project:
+cd /path/to/your/project
+git init
+3. Add the Remote Repository (in bash)
+You’ll see a URL on GitHub after creating the repo. It will look as below , run  this command in git bash:
+git remote add origin https://github.com/yourusername/your-private-repo.git
+4. Add and Commit Your Files(in bash)
+git add .
+git commit -m "Initial commit"
+5. Push to the Private Repository 
+If the repo is new and empty, push like this from git bash:
+git push -u origin master
+If you're using the main branch (GitHub default):
+git push -u origin main
+You may be prompted to log in (via username/password or token).
+
+Task 2 explore all listed git commands
+1. Git Commands
+Check Git version
+>> `git --version`
+Set username & email
+>> `git config --global user.name "Your Name"`
+>> `git config --global user.email "you@example.com"`
+View all configuration
+>> `git config --list`
+
+2. Repository Management
+Initialize a new local repository
+>> `git init`
+Clone a remote repository
+>> `git clone <url>`
+>> Copies a remote repo to local.
+Show connected remotes
+>> `git remote -v`
+Add a new remote
+>> `git remote add origin <url>`
+Push commits to remote
+>> `git push origin <branch>`
+Pull updates from remote
+>> `git pull origin <branch>`
+Remove a remote
+>> `git remote remove origin`
+Rename a remote
+>>`git remote rename origin upstream`
+Fetch remote updates (no merge)
+>> `git fetch origin`
+Change remote URL
+>> `git remote set-url origin <new-url>`
+Show remote information
+>> `git remote show origin`
+
+3. Staging & Committing
+Check file status
+>> `git status`
+Add files to staging
+>> `git add filename.txt`
+>> `git add .` (add all)
+Commit staged changes
+>> `git commit -m "message"`
+
+4. Branching & Merging
+List / Create / Delete branches
+>> `git branch` (list)
+>> `git branch -a` (all branches)
+>> `git branch <name>` (create)
+>> `git branch -d <name>` (delete)
+>> `git branch -D <name>` (force delete)
+List remote branches
+>> `git branch -r`
+Switch branches
+>> `git checkout <branch>`
+>> `git checkout -b <new-branch>` (create + switch)
+Prune deleted remote branches
+>> `git remote prune origin`
+Fetch a specific branch
+>> `git fetch origin <branch>`
+Set upstream (first push)
+>> `git push --set-upstream origin <branch>`
+Merge branches
+>> `git checkout main`
+>> `git merge <branch>`
+Rebase onto remote branch
+>> `git fetch origin`
+>> `git rebase origin/main`
+
+5. Undoing Changes
+Unstage a file
+>> `git reset <file>`
+Reset everything (dangerous)
+>> `git reset --hard`
+Revert a commit (safe undo)
+>> `git revert <commit>`
+
+6. Viewing History
+Show commit history
+>> `git log`
+>> `git log --oneline`
+Show file differences
+>> `git diff`
+Show details of a commit
+>> `git show <commit>`
+
+7. Undo changes before staging
+>> `git restore filename`
+
+8. Fix last commit message
+>> `git commit --amend -m "Corrected message"`
+
+9. Recover deleted branches
+>> `git reflog`
+>> `git checkout -b <branch> <commit_hash>`
+
+# **10. Download remote changes without merging**
+>> `git fetch origin`
+
+11. Remove sensitive file from history
+>> `git filter-branch --force --index-filter "git rm --cached --ignore-unmatch secrets.txt" --prune-empty --tag-name-filter cat -- --all`
+
+12. Merge another branch
+>> `git checkout <target-branch>`
+>> `git merge <source-branch>`
+
+13. Resolve merge conflicts
+1. Open file, fix conflict markers
+2. Then:
+>> `git add <file>`
+>> `git commit`
+
+14. .gitignore
+Create file:
+>> `touch .gitignore`
+Add ignore rules:
+```
+*.log
+temp/
+secret_file.txt
+folder/*
+!folder/important_file.txt
+*.bak
+```
+15. See who edited each line
+>> `git blame filename.py`
+16. Git stash (save work temporarily)
+>> `git stash`
+>> `git switch <branch>`
+>> `git stash apply`
+17. Check if branch is merged
+>> `git branch --merged`
+18. Delete multiple branches
+>>`git branch -d branch1 branch2 branch3`
+
+Task 3 Collaborative coding using git
+1. Collaborative coding.
+a. Facilitating Collaborative Work by creating Organization
+Step 1:  Click on New organization in Git hub
+         Click on Create a free organization.
+Step 2:  Set up your organization by entering the details like name, associated email, account verification, etc.
+         Click on Next
+Step 3:  Complete the setup by 
+	adding members to the group.
+	Now, the invitation goes to other collaborator and they must accept.
+	Next click on complete setup
+	Goto Github and click on 
+Settings  Member privileges  Base permissions  Select write  change base permission to “Write”  
+Next under,
+   Projects base permissions  Select Write  change base permission to “Write”  
+Step 4:  Create the remote repository for storing the project related files in Organization. 
+ 
+b. To collaborate effectively on GitHub shared repository by sharing code and coordinating with others through a shared repository.
+Steps for Collaborator 1 are:(collaborator-1 has repository that he wants to share with collaborator-2)
+	Go to Settings > collaborators
+	Now in Manage Access click on Add people
+	Now you will be able to see ONE collaborator added
+	After this invitation goes to collaborator 2 and they need to accept it.
+
+Steps for Collaborator 2 are:
+1. Set Up Git and GitHub
+In git bash
+git config --global user.name "Your Name"
+git config --global user.email you@example.com
+$ git remote –v // Note now, not connected to any remote
+2. Go to Git hub and copy url of shared repository by collaborator 1	
+• Copy url (option 1)
+3. Clone the Repository
+Get a local copy of the repo:
+	In git bash
+	git clone https://github.com/username/repository-name.git
+	cd repository-name
+4. Create a Branch for Your Work
+Always work on a separate branch:
+In git bash
+	git checkout -b feature/your-feature-name
+5. Make Changes and Commit
+Edit files, then stage and commit your changes:
+In git bash to existing file / new file  
+	git add .	
+	git commit -m "Add a clear and descriptive commit message"
+6. Push Your Branch to GitHub
+	In git bash
+	git push origin feature/your-feature-name
+7.  Keep Your Branch Updated (has to be done by owner collaborator 1)
+Before making new changes:
+In git bash
+	git checkout main
+	git pull origin main
+	git checkout feature/your-new-feature
+	git merge main
+
+
+Exercise on Fork
+Following steps needed if you forked from any public repository to contribute to Person 1
+1. Go to: `https://github.com/Person1/awesome-project` (of Person 1)
+2. Click the “Fork” button at the top-right of the page.
+3. GitHub will create a copy of that repository in your account (say Person2):
+       https://github.com/your-username/awesome-project
+as
+         https://github.com/Person2/awesome-project
+4. Clone your forked repo: in bash (by Person 2) 
+	git clone https://github.com/your-username/awesome-project
+	Make changes.
+	git add .
+	 git Commit 
+	git push origin main
+5. Create or  a “pull request” back to the original repo (`othername/awesome-project) to suggest your changes. (by Person 2)
+ Click at top “Pull request” or click on  at top or click on repo “awesome-project” then click on Contribute at top then click on “open pull request”
+ Add title and Add a description if you want. Below it shows what changes you made to file  
+ Click on Create pull request
+Now you see on page message “NO conflicts with base branch”
+6.  By Person 1
+•	Pull requests 1  appears at top in git hub account of Person 1 
+•	Clicking on “Pull requests” shows: 
+   Commit by Person 2. Click on this commit message.
+   It redirect to repository (say awesome-project)
+•	Click on “File changed 1” to see changes made by Person 2
+•	Click on “Review Changes”, add review and  click on “submit review”
+•	Click on Merge pull request
+•	Confirm merge
+Note:  It displays “Pull request Successfully merged and closed” to Person 1
+•	Now go to Code and see changes have been merged to the file. 
+•	In commit it shows: Commit by Person 2
+                                 Merge commit by Person 1
+7.  Merge the Pull Request (has to be done by both collaborators)
+Once approved:
+•	The repo owner can click Merge pull request
+8.  Keep Your Branch Updated (has to be done by Person 1 and Person 2)
+Before making new changes:
+In git bash
+	git checkout main
+	git pull origin main
+	git checkout feature/your-new-feature
+	git merge main
+	cd repository-name
+
+
+2. To resolve conflicts when collaborating on same part of code.
+Steps to Resolve a Conflict
+1. See Which Files Are in Conflict (Say f1.txt)
+In git bash
+	git status
+   Conflicted files will be marked like:
+In git bash
+	both modified:  (Say f1.txt)
+3.	Open the File and Look for Conflict Markers by clicking on
+ Click on Resolve Conflict
+Git will insert conflict markers in the file like this:
+def greet():
+<<<<<<< HEAD
+    print("Hello from First collaborator ")
+=======
+    print("Hello from second collaborator ")
+>>>>>>> feature/second collaborator branch
+This shows the two conflicting changes:
+•	HEAD is your version
+•	The section below ======= is the other branch’s version or second collaborator branch version
+3. Edit the File to Fix the Conflict
+	Choose one version or combine them:
+	def greet():
+   	     print("Hello from First collaborator ")
+                    print("Hello from second collaborator ")
+	Then delete all the conflict markers (<<<<<<<, =======, >>>>>>>).
+4. Mark the Conflict as Resolved
+Once you've edited and saved the file:
+	git add f1.txt
+5. Complete the Merge or Pull
+	git commit    # Only needed if you're merging
+Or if you're rebasing:
+	git rebase --continue
+⚠️ If You Want to Abort the Merge
+If it gets messy and you want to cancel:
+git merge --abort
+Example :
+Merge Conflict – Changes made to a file by two different users leads to merge conflict as below.
+Say I am collaborator 2, now
+ Accept invitation from collaborator 1
+ Next goes to Shared repository by collaborator 1 (say abcrepo)
+ Now open Git bash and clone the shared repo as below steps
+Step 1: first connect to this “abcrepo” to local repository by clone
+ Now change directory to “abcrepo”
+ Switch to branch feature-abc
+ Now add line in README.md file
+ Now git add, commit
+ Now see status and push to remote branch feature-abc
+ Now go to Github and refresh or click on “abcrepo”, you can see  README.md
+Step 2: Now collaborator 2 adding line in README.md, save, git add, commit,  push. No conflicts
+Step 3: Also collaborator 1 adding line in README.md at same line collaborator 2 added, then git add, commit, push gives merge conflict. 
+NOTE IMPORTANT :
+Now collaborator 2 has to give git pull command then open conflicting file to see conflict markers.
+Now Edit the File to Fix the Conflict by keeping either or both collaborator changes and remove conflict markers. Add file, commit, and push. 
+
+
+
+3. To create and apply patch 
+A patch in Git is a text file that represents changes between two sets of files, or commits. 
+Steps:
+1.	Goto github and take public project url
+2.	Clone into git bash
+3.	Now open file and edit it, add, commit
+4.	Run git log 
+5.	Create patch with commit hash code as:
+git format-patch -1 commit-hash-code
+           This creates 0001-commit-from-cloned-person.patch file.
+Note: git format-patch -1 <commit-hash>
+•	-1 means "create a patch from 1 commit"
+•	This creates a .patch file for a single commit.
+•	Example: git format-patch -1 abc1234
+•	This creates a file like 0001-Your-commit-message.patch
+To create patches for the last 3 commits: git format-patch -3 
+	or
+Create patches from multiple commits
+	git format-patch <base_commit>..HEAD
+6. Get the path of above patch file and email or what’s up to the remote owner of file.
+7. Once the remote owner gets the patch file 0001-commit-from-cloned-person.patch next the owner need to apply patch file in his git bash  using git command below:
+	Syntax:
+		git apply my-changes.patch
+                 	  Or, if it's a patch made by git format-patch, use:
+		git am 0001-Your-commit-message.patch  
+	git apply 0001-Your-commit-message.patch
+
+week 4
+pom.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.library</groupId>
+    <artifactId>LibraryRegistration</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <!-- Servlet API for Tomcat 9 (Jakarta EE 9) -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>4.0.4</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- JSP API -->
+        <dependency>
+            <groupId>jakarta.servlet.jsp</groupId>
+            <artifactId>jakarta.servlet.jsp-api</artifactId>
+            <version>3.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- JSTL for Jakarta -->
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <finalName>LibraryRegistration</finalName>
+    </build>
+
+</project>
+Creation of Maven Java Project
+Step 1. Open Eclipse IDE
+   └── 1.1. Launch Eclipse workspace
+Step 2. Install Maven Plugin (if not installed)
+   └── 2.1. Go to "Help" in the top menu
+       └── 2.1.1. Click "Eclipse Marketplace"
+       └── 2.1.2. Search for "Maven Integration for Eclipse"
+       └── 2.1.3. Install the plugin if not already installed
+Step 3. Create a New Maven Project
+   └── 3.1. File -> New -> Project...
+       └── 3.1.1. Expand "Maven"
+       └── 3.1.2. Select "Maven Project" and click "Next"
+Step 4. Set Project Configuration
+   └── 4.1. Select workspace location (default or custom)
+   └── 4.2. Click "Next"
+Step 5. Choose Maven Archetype
+   └── 5.1. Select an archetype(e.g "org.apache.maven.archetypes -> maven-archetype-quickstart 1.4 ")
+   └── 5.2. Click "Next"
+Step 6. Define Project Metadata
+   └── 6.1. Group ID: (e.g., com.example)
+   └── 6.2. Artifact ID: (e.g., my-maven-project)
+   └── 6.3. Version: (default is usually fine)
+   └── 6.4. Click "Finish"
+In Console, artifacts are grouped. When prompted with Y/N, type 'Y'.
+Step 7. Maven Project Created
+   └── 7.1. Project structure is generated with a standard Maven layout
+   └── 7.2. Includes:
+       └── src/main/java (for Java source code)
+       └── src/test/java (for test code)
+       └── pom.xml (Maven configuration file)
+Step 8. Update Project Settings (if needed)
+   └── 8.1. Right-click on the project -> Maven -> Update Project...
+   └── 8.2. Ensure dependencies are up to date
+Step 9. Build and Run Maven Project
+   └── 9.1. Right-click on App.java -> Run As -> Maven Clean
+       └── 9.1.1. Right-click on App.java -> Run As -> Maven Install
+       └── 9.1.2. Right-click on App.java -> Run As -> Maven Test
+      └── 9.1.3. Right-click on App.java -> Run As -> Maven Build
+Step 10. In the Maven Build dialog:
+    └── Enter Goals: clean install test
+    └── Click on Apply -> Click on Run
+Step 11. Check console for BUILD SUCCESS message.
+Step 12. Run the application:
+    └── Right-click on App.java -> Run As -> Java Application
+    └── Output: "Hello World" displayed.
+Creation of Maven web Java Project
+Step 1: Open Eclipse
+   └── 1.1 Launch Eclipse IDE.
+   └── 1.2 Select or create a workspace.
+Step 2: Create a New Maven Project
+   └── 2.1. File -> New -> Project...
+       └── 2.1.1. Expand "Maven"
+       └── 2.1.2. Select "Maven Project" and click "Next"
+Step 3: Choose Maven Archetype
+   └── 3.1. Select an archetype(e.g "'org.apache.maven.archetypes' -> 'maven-archetype-webapp' 1.4 ")
+   └── 3.2. Click "Next"
+Step 4: Configure the Maven Project
+   └── 4.1 Group Id: Enter a group ID (e.g., com.example).
+   └── 4.2 Artifact Id: Enter an artifact ID (e.g., my-web-app).
+   └── 4.3 Click **Finish** to create the project.
+Step 5: Add Maven Dependencies
+   └── 5.1 Open the **pom.xml** file in the Maven project.
+   └── 5.2 Add the necessary dependencies for your web project (e.g., Servlet, JSP):
+Go to browser -> Open mvnrepository.com
+ Search for 'Java Servlet API' -> Select the latest version.
+ Copy the dependency code -> Paste it in MavenWeb’s pom.xml under the target folder
+       └── Example:
+           ```xml
+           <dependency>
+               <groupId>javax.servlet</groupId>
+               <artifactId>javax.servlet-api</artifactId>
+               <version>4.0.1</version>
+               <scope>provided</scope>
+           </dependency>
+           ```
+   Step 6:-. Configure server:
+    └── Window -> Show View -> Servers
+    └── Add server -> Select Tomcat v9.0 server -> Click Next
+    └── Configure server options (e.g., ports, server location).
+Step 7:-. Modify 'tomcat-users.xml':
+    └── Add role and user details under <tomcat-users> tag.
+Step 8:. Build the project:
+    └── Right-click on index.jsp -> Run As -> Maven Clean
+    └── Right-click on index.jsp -> Run As -> Maven Install
+    └── Right-click on index.jsp -> Run As -> Maven Test
+    └── Right-click on index.jsp -> Run As -> Maven Build
+Step 9. In the Maven Build dialog:
+    └── Enter Goals: clean install test
+    └── Click on Apply -> Click on Run
+Step 10. Check console for BUILD SUCCESS message.
+Step 11. Run the application:
+    └── Right-click on index.jsp -> Run As -> Run on Server
+    └── Select the Tomcat server -> Click on Finish
+Step 12. Output: "Hello World" webpage displayed.
+Note:-Now push yours Maven java project and Maven Web Project into your GitHub
+
+3. Configure Java Version via Compiler Plugin
+In pom.xml:
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-compiler-plugin</artifactId>
+  <version>3.11.0</version>
+  <configuration>
+    <source>17</source>
+    <target>17</target>
+  </configuration> </plugin>
+Check:
+•	Run mvn package
+•	Inspect generated JAR: jar tf target/myapp.jar
+
+4. JUnit Testing and Reports
+Place test files in src/test/java. Example:
+public class AppTest {
+    @Test
+    public void testSum() {
+        assertEquals(5, 2 + 3);
+    }
+}
+Run:
+mvn test
+Check:
+•	target/test-classes/ → compiled test .class files
+•	target/surefire-reports/ → .txt or .xml test results
+If test fails → corresponding log and failure trace shown 
+
+5. Handling Errors in pom.xml
+	Typos in version numbers or missing repositories cause BUILD FAILURE
+	Maven shows precise error in console
+	Fix the dependency tag → re-run mvn clean install
+
+6. Adding Resource Files
+Put config.properties inside:
+src/main/resources/config.properties
+To read:
+InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties");
+After build, check target/classes/ → file should exist there.
+
+7. Multi-Module and Parent Projects
+Structure:
+parent/
+ ├── pom.xml (packaging: pom)
+ ├── core/
+  |     └── pom.xml
+ └── web/
+       └── pom.xml
+	Parent pom.xml defines <modules> and common dependencies
+	Each submodule builds independently into its target/ directory
+
+8. Executable JARs
+Add to pom.xml:
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-jar-plugin</artifactId>
+      <configuration>
+        <archive>
+          <manifest>
+            <mainClass>com.example.Main</mainClass>
+          </manifest>
+        </archive>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
+Run:
+mvn package
+java -jar target/myapp.jar
+
+9.	Building a WAR File
+Create a Maven web project with structure:
+src/main/webapp/
+ └── WEB-INF/web.xml
+
+Add:
+<packaging>war</packaging>
+Command:
+mvn package
+Generates target/mywebapp.war → deploy on Tomcat server.
+
+
+Week 5 Docker CLI commands
+
+Working with Docker CLI Commands:
+Docker CLI Commands with redis
+Step 1: Pull the redis Image
+docker pull redis
+Step 2: Run a Redis Container
+docker run --name my-redis -d redis
+What It Does:
+• Creates and starts a container named my-redis from the redis image.
+• The -d flag runs the container in the background.
+Step 3: Check Running Containers
+docker ps
+What It Does:
+• Lists all running containers.
+Step 4: Access Redis
+docker exec -it my-redis redis-cli
+Opens the Redis command-line tool (redis-cli) inside the container.
+Example Redis Commands:
+127.0.0.1:6379> SET name "Alice"
+OK
+127.0.0.1:6379> GET name
+"Alice"
+127.0.0.1:6379>exit // to come out
+Step 5: Stop the Redis Container
+docker stop my-redis
+What It Does:
+• Stops the Redis container but doesn’t delete it.
+Step 6: Restart the Redis Container
+docker start my-redis
+What It Does:
+• Restarts the stopped container.
+Step 7: Remove the Redis Container
+docker rm my-redis  // Note before removing stop the container
+What It Does:
+• Deletes the container permanently.
+Step 8: Remove the Redis Image
+docker rmi redis
+What It Does:
+• Deletes the Redis image from your local system.
+
+
+2.Working with Docker file
+A Dockerfile is a text file with instructions to create a custom Docker image.
+Step 1: Set Up Your Folder
+1. Windows:
+o Create a folder like C:\DockerProjects\Redis.
+o Open Git Bash and navigate to the folder:
+cd /c/DockerProjects/Redis
+2. Mac/Linux:
+o Create a folder:
+mkdir ~/DockerProjects/Redis
+cd ~/DockerProjects/Redis
+Step 2: Write the Dockerfile
+1. Inside the folder, create a file named Dockerfile (no extension).
+2. Add the following content:
+FROM redis:latest
+CMD ["redis-server"]
+
+
+Docker Commands (Step-by-step):
+1. docker build -t redisnew  .
+What it does:
+• This creates (builds) a Docker image using the recipe (Dockerfile) in the current
+folder (.).
+• -t redisnew: Gives the image a name/tag ("redisnew"), so you can find it easily.
+2. docker run --name myredisnew -d redisnew
+What it does:
+• Starts a new container (mini computer) from the redisnew image.
+• --name myredisnew: Names the container "myredisnew" so it’s easy to identify.
+• -d: Runs the container in the background.
+3. docker ps
+What it does:
+• Shows a list of containers that are running right now.
+4. docker stop myredisnew
+What it does:
+• Stops the container named "myredisnew" (like turning off a computer).
+5. docker login
+What it does:
+• Logs you into your Docker Hub account, so you can upload images.
+6. docker ps -a
+What it does:
+• Shows a list of all containers, including stopped ones.
+7. docker commit 0e993d2009a1 budarajumadhurika/redis1 
+// Note 0e993d2009a1 is container id of myredisnew
+What it does:
+• Takes a snapshot (saves changes) of the container with ID 0e993d2009a1 and creates a
+new image called budarajumadhurika/redis1.
+8. docker images
+What it does:
+• Lists all images saved on your system. // will show image of budarajumadhurika/redis1
+9. docker push budarajumadhurika/redis1
+What it does:
+• Uploads the image budarajumadhurika/redis1 to Docker Hub, so others can download
+it.
+10. docker rm 0e993d2009a1  // container id of myredisnew
+What it does:
+• Deletes the container with ID 0e993d2009a1 of myredisnew.
+11. docker rmi budarajumadhurika/redis1
+What it does:
+• Deletes the image budarajumadhurika/redis1 from your system.
+12. docker ps -a
+What it does:
+Shows all containers again to confirm changes.
+13. docker logout
+What it does:
+• Logs you out of Docker Hub.
+14. docker pull budarajumadhurika/redis1
+What it does:
+• Downloads the image budarajumadhurika/redis1 from Docker Hub.
+15. docker run --name myredis -d budarajumadhurika/redis1
+What it does:
+• Starts a new container using the image budarajumadhurika/redis1.
+16. docker exec -it myredis redis-cli
+What it does:
+• Opens the Redis command-line interface (like a terminal) inside the running container
+myredis.
+17. SET name "Abcdef"
+What it does:
+• Saves a key-value pair in Redis (key = name, value = Abcdef).
+18. GET name
+What it does:
+• Retrieves the value of the key name from Redis (it will return "Abcdef").
+19. exit
+What it does:
+• Exits the Redis CLI.
+20. docker ps -a
+What it does:
+• Shows all containers again to check their status.
+21. docker stop myredis
+What it does:
+• Stops the container myredis.
+22. docker rm 50a6e4a9c326
+What it does:
+• Deletes the container with ID 50a6e4a9c326.
+23. docker images
+What it does:
+• Lists all images again to confirm which ones remain.
+24. docker rmi budarajumadhurika/redis1
+What it does:
+• Deletes the image budarajumadhurika/redis1 again.
+Step 3: Remove Login Credentials (Optional)
+If you no longer need to be logged in, you can log out:
+docker logout
+What It Does:
+• Logs you out from Docker Hub and removes your stored credentials.
+
+
+Week 6 Docker compose 
+Example Docker Compose File (Simple)
+Here’s a basic example of a Docker Compose file that runs WordPress and MySQL together:
+version: '3.8'  # Docker Compose file format version
+
+services:
+  wordpress:  # WordPress service
+    image: wordpress:latest
+    ports:
+      - "8081:80"  # Map port 80 of the container to port 8080 of the host
+    environment:
+      WORDPRESS_DB_HOST: db:3306  # Database host
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    depends_on:
+      - db  # Ensures the db service starts first
+
+  db:  # MySQL service
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+
+How to Run It
+To run a multi-container setup like the one above:
+Save the file as docker-compose.yml.
+                Or
+docker-compose.yaml
+2. To Start the compose
+docker-compose up –d
+3. To stop the containers 
+docker-compose down
+4.To scale the container
+docker-compose up --scale <service name>=2 -d
+
+1.Define and run multiple interdependent services
+Task:
+I. Create a new folder compose-lab
+Inside it, create a file docker-compose.yml with the following content:
+version: "3.9"
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
+      POSTGRES_DB: demo_db
+II. Run the setup:
+docker compose up -d
+III. Open your browser and visit: http://localhost:8080.
+IV. Expected Output:
+Nginx welcome page is displayed.
+db container runs in the background.
+
+2.Write and interpret docker-compose.yml files
+Task:
+I. Modify docker-compose.yml to add a Redis cache:
+  redis:
+    image: redis:alpine
+II. Add a depends_on so web waits for Redis:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    depends_on:
+      - redis
+III. Restart the setup:
+docker compose up -d
+docker compose ps
+IV. Expected Output:
+Three services (web, db, redis) are listed as running.
+
+3.Deploy across different machines
+Task:
+I. Zip your compose-lab folder.
+Transfer it to another machine with Docker Compose installed.
+II. Run:
+docker compose up -d
+Check that Nginx and Postgres work there as well.
+III. Expected Output:
+The same services run on the new machine without changes.
+
+4.Networking and persistent storage
+Task:
+I. Update your docker-compose.yml to add a custom network and volume:
+networks:
+  app-net:
+
+volumes:
+  db-data:
+
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    networks:
+      - app-net
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
+      POSTGRES_DB: demo_db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - app-net
+II. Run:
+docker compose up -d
+III. Insert some data into Postgres (optional with psql).
+IV. Remove containers:
+docker compose down
+V. Start again:
+docker compose up -d
+VI. Expected Output:
+Database data persists across restarts.
+Services communicate via the app-net network using service names.
+
+5.Faster iteration during development
+Task: 
+I. Create a simple Flask app in app.py:
+from flask import Flask
+app = Flask(__name__)
+@app.route("/")
+def home():
+    return "Hello from Flask + Docker!"
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
+
+II. Add a Dockerfile in the same folder:
+FROM python:3.10-slim
+WORKDIR /app
+COPY app.py /app/
+RUN pip install flask
+CMD ["python", "app.py"]
+III. Update docker-compose.yml:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+IV. Run:
+docker compose up --build
+Visit http://localhost:5000.
+Change the return text in app.py (e.g., "Hello Docker Compose!").
+V. Rebuild:
+docker compose up –build  // No need to rebuild 
+Visit http://localhost:5000.
+VI. Expected Output:
+New message appears instantly after rebuild.
+
+
+
+Week 7
+Creating a Multi-Module Maven Project:
+1.	Open eclipse-> file-> new -> other -> Maven -> MavenProject ->click on next.
+2.	Check the first option: Create a Simple project(skip archetype selection) and click on next.
+3.	Give groupID: KMIT, artifact ID: MultiModule, in the packaging tab select the drop down and opt for pom.
+4.	Give Name: Multimodule creation and Description: Sample multimodule with parent child hierarchy and click on next.
+5.	Now the Multimodule folder is created and displayed in the project explorer on the left. Right click on the folder and opt new -> mavenModule
+6.	Check the option Create a Simple project(skip archetype selection, give the artifactID: MultiModuleChild1 and click on next and finish.
+7.	Now you can see, the module1 we created is displayed in the project explorer with a separate pom.xml file.
+8.	Right click on the MultiModule folder in the project explorer and opt new -> mavenModule
+9.	Give the artifactID: MultiModuleChild2 and click on next.
+10.	In filters search for maven-archetype-webapp, select the version 1.1/1.5 and click on next.
+11.	Now click on finish, and confirm with a Y in the console.
+12.	Now you can watch the new child is been added to the parent project.
+Note: Childs or Modules can be added to the projects who have the packaging type as pom. If we try to create a module within child1 it is not possible since its packaging is opted to JAR.
+Linking two modules in a Parent Project:
+Go to the module u want to connect. And add a dependency to other module on which the current module depends. For example if my child2 is dependent on child1. I have to change the dependencies in the pom.xml by adding a new dependency of child1.
+Steps to add dependency:
+1.	Goto pom.xml of child2.
+2.	Navigate to dependencies tag. Update the dependencies with child1 dependency as given below, and save pom.xml after update.
+<dependency>
+		<groupId>KMIT</groupId>
+			<artifactId>MultimoduleChild1</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+	</dependency>
+3.	Now build the child2 by right clicking it and opting run as->maven build.
+4.	The build will be a failure. Because we haven’t build the parent project and the child project. Child1 is dependent on parent. And Child2 is dependent on child2. SO we have to build ass the previous module first and then build the current child2.
+5.	After building parent and child1, build child2 now the build will be a Success

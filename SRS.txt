@@ -1,0 +1,32 @@
+
+1. Abstract
+
+“This project aims to develop a [System Name] that helps [target users] to [main purpose].
+The system automates [key operations] to improve efficiency and reduce manual work.
+It provides features such as [important functions] to ensure accuracy and reliability.
+Overall, the system enhances user experience by offering a secure, fast, and easy-to-use platform.”
+
+Here
+System Name = Library Management System / Banking System / Food Delivery System
+Target Users = students, customers, admin, etc.
+Purpose = managing records, processing orders, storing data
+Key Operations = registration, booking, ordering, payments
+Important features = authentication, search, reporting
+
+2. Functional Requirements - What the system should do ??
+
+The system shall allow users to register, log in, and manage their profiles.
+The system shall allow users to access core system features such as viewing, adding, updating, or searching information.
+The system shall allow the admin to manage users and system data.
+The system shall support the primary operations required by the application (e.g., booking, ordering, transactions).
+The system shall display outputs such as confirmations, receipts, and status updates.
+
+3. Non Functional Requirements - How the system should behave ??
+
+1. Performance - The system should respond to user requests within 2–3 seconds.
+2. Security - The system must protect user data using authentication and authorization.
+3. Reliability - The system must perform its operations without failure during normal usage.
+4. Usability - The system should have a simple, intuitive, and user-friendly interface.
+5. Availability - The system should be available 24/7 with minimal downtime.
+Scalability – The system must handle increased number of users in the future.
+Maintainability – Code should be easy to modify and update.
